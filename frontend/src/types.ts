@@ -1,12 +1,15 @@
 export interface EventItem {
   id: string;
+  guidleId: number;
   title: string;
   translatedTitle: string | null;
   categories: string[];
   imageUrl: string | null;
   detailUrl: string;
   firstShow: string;
-  schedule: string | null;
+  lastShow: string | null;
+  schedules: string[];
+  occurrenceCount: number;
   venue: string | null;
   lat: number | null;
   lng: number | null;

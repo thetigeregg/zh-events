@@ -27,7 +27,7 @@
       <div class="day-header">{dayFormatter.format(new Date(`${date}T00:00:00`))}</div>
       {#each dayEvents as event (event.id)}
         <a class="row" href={event.detailUrl} target="_blank" rel="noreferrer">
-          <span class="time">{event.schedule ?? "—"}</span>
+          <span class="time">{event.schedules.length > 0 ? event.schedules.join(", ") : "—"}</span>
           <span class="title">{displayTitle(event)}</span>
           <span class="venue">{event.venue ?? ""}</span>
           <span class="categories">{event.categories.join(", ")}</span>

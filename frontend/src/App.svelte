@@ -5,6 +5,7 @@
   import DateRangeChips from "./lib/DateRangeChips.svelte";
   import DepartureBoard from "./lib/DepartureBoard.svelte";
   import { dateRangeFor, filters } from "./lib/filters.svelte.js";
+  import GroupToggle from "./lib/GroupToggle.svelte";
   import ImageGrid from "./lib/ImageGrid.svelte";
   import LanguageToggle from "./lib/LanguageToggle.svelte";
   import SearchBar from "./lib/SearchBar.svelte";
@@ -31,13 +32,14 @@
     const search = filters.search;
     const dateRange = filters.dateRange;
     const selectedCategories = [...filters.categories];
+    const group = filters.view === "grid" && filters.groupRecurring ? "event" : "day";
 
     clearTimeout(debounceTimer);
     debounceTimer = setTimeout(() => {
       loading = true;
       error = null;
       const { from, to } = dateRangeFor(dateRange);
-      fetchEvents({ search: search || undefined, from, to, categories: selectedCategories, pageSize: 500 })
+      fetchEvents({ search: search || undefined, from, to, categories: selectedCategories, group, pageSize: 500 })
         .then((r) => {
           events = r.events;
           total = r.total;
@@ -69,7 +71,10 @@
     <SearchBar />
     <DateRangeChips />
     <CategoryChips {categories} />
-    <ViewToggle />
+    <div class="view-row">
+      <ViewToggle />
+      <GroupToggle />
+    </div>
   </div>
 
   <div class="status">
@@ -116,6 +121,11 @@
     flex-direction: column;
     gap: 0.7rem;
     margin-bottom: 1.2rem;
+  }
+  .view-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
   }
   .status {
     color: var(--text-muted);

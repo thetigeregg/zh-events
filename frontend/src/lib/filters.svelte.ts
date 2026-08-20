@@ -5,6 +5,10 @@ export const filters = $state({
   dateRange: "next7" as DateRangePreset,
   categories: new Set<string>(),
   view: "board" as ViewMode,
+  // Only meaningful (and only shown) in grid view — the departure board is
+  // inherently a day-by-day listing, where grouping a recurring event across
+  // its many days would fight the view's own purpose.
+  groupRecurring: true,
 });
 
 function toDateString(d: Date): string {

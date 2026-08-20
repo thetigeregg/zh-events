@@ -5,6 +5,7 @@ export interface EventsQuery {
   from?: string;
   to?: string;
   categories?: string[];
+  group?: "day" | "event";
   page?: number;
   pageSize?: number;
 }
@@ -20,6 +21,7 @@ export function fetchEvents(query: EventsQuery): Promise<EventsResponse> {
   if (query.search) params.set("search", query.search);
   if (query.from) params.set("from", query.from);
   if (query.to) params.set("to", query.to);
+  if (query.group) params.set("group", query.group);
   if (query.page) params.set("page", String(query.page));
   if (query.pageSize) params.set("pageSize", String(query.pageSize));
   for (const category of query.categories ?? []) params.append("category", category);

@@ -3,6 +3,19 @@
   import type { EventItem } from "../types.js";
 
   let { events }: { events: EventItem[] } = $props();
+
+  function dateLine(event: EventItem): string {
+    // event.lastShow is only ever set when the backend grouped this row
+    // across multiple days (the "group recurring events" toggle) — a single
+    // day's row (with 0+ same-day showtimes already merged) never has it.
+    if (event.lastShow) {
+      const range = event.lastShow !== event.firstShow ? `${event.firstShow} – ${event.lastShow}` : event.firstShow;
+      const dates = event.occurrenceCount === 1 ? "1 date" : `${event.occurrenceCount} dates`;
+      return `${range} · ${dates}`;
+    }
+    if (event.schedules.length > 0) return `${event.firstShow} · ${event.schedules.join(", ")}`;
+    return event.firstShow;
+  }
 </script>
 
 <div class="grid">
@@ -12,7 +25,7 @@
         {#if !event.imageUrl}<span class="no-image">No image</span>{/if}
       </div>
       <div class="body">
-        <div class="date">{event.firstShow} · {event.schedule ?? "—"}</div>
+        <div class="date">{dateLine(event)}</div>
         <div class="title">{displayTitle(event)}</div>
         <div class="venue">{event.venue ?? ""}</div>
       </div>

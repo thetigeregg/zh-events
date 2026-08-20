@@ -4,9 +4,13 @@ import type Database from "better-sqlite3";
 import sharp from "sharp";
 import { config } from "../config.js";
 
-// Guidle image basenames look like "<40-hex-char-hash>_<digits>.<ext>" — strict
-// allowlist so the :hash route param can never be used for path traversal.
-export const IMAGE_HASH_PATTERN = /^[a-f0-9]+_[0-9]+\.(jpg|jpeg|png|webp)$/i;
+// Guidle image basenames vary more than expected — most look like
+// "<40-hex-char-hash>_<digits>.<ext>", but some are just "<hash>.<ext>" with
+// no digits suffix, and extensions beyond jpg/png/webp (e.g. bmp) show up
+// too. No "/" is ever permitted in the allowed charset, which is what
+// actually rules out path traversal — the exact shape of the basename
+// otherwise doesn't matter for safety.
+export const IMAGE_HASH_PATTERN = /^[a-zA-Z0-9._-]+\.(jpg|jpeg|png|webp|bmp|gif)$/i;
 
 // Guidle source images vary wildly in size — most are a few hundred KB to a
 // couple MB, but some are untouched full-resolution camera originals (one
