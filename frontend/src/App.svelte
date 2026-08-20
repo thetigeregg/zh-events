@@ -81,8 +81,14 @@
 
   {#if filters.filtersOpen}
     <div class="filters-panel">
-      <DateRangeChips />
-      <CategoryChips {categories} />
+      <div class="filter-section">
+        <span class="filter-label">When</span>
+        <DateRangeChips />
+      </div>
+      <div class="filter-section category-section">
+        <span class="filter-label">Category</span>
+        <CategoryChips {categories} />
+      </div>
     </div>
   {/if}
 
@@ -153,8 +159,24 @@
   .filters-panel {
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
+    gap: 0.9rem;
     margin-bottom: 1.2rem;
+  }
+  .filter-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+  .filter-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-faint);
+  }
+  .category-section {
+    padding-top: 0.7rem;
+    border-top: 1px solid var(--border-subtle);
   }
   .status {
     color: var(--text-muted);

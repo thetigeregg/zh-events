@@ -12,7 +12,7 @@
       class:active={filters.categories.has(cat.name)}
       onclick={() => toggleCategory(cat.name)}
     >
-      {cat.name} <span class="count">{cat.count}</span>
+      <span class="label">{cat.name}</span><span class="count">{cat.count}</span>
     </button>
   {/each}
 </div>
@@ -24,6 +24,9 @@
     gap: 0.4rem;
   }
   .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
     padding: 0.35rem 0.8rem;
     border-radius: 999px;
     border: 1px solid var(--border);
@@ -38,7 +41,10 @@
     color: #fff;
   }
   .count {
+    display: inline-flex;
+    align-items: center;
     opacity: 0.7;
     font-size: 0.75em;
+    line-height: 1;
   }
 </style>
