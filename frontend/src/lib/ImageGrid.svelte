@@ -51,7 +51,11 @@
 
   @media (max-width: 560px) {
     .grid {
-      grid-template-columns: repeat(2, 1fr);
+      /* plain 1fr implies minmax(auto, 1fr) — a column with wider
+         min-content text (e.g. a long date-range string) would force that
+         whole column wider than its sibling. minmax(0, 1fr) forces truly
+         equal columns and lets text wrap/clip instead. */
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 0.6rem;
     }
     .body {
@@ -124,6 +128,7 @@
     font-family: monospace;
     font-size: 0.75rem;
     color: var(--time-color);
+    overflow-wrap: break-word;
   }
   .title {
     font-weight: 600;
