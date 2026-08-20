@@ -80,4 +80,15 @@
     font-size: 0.75rem;
     color: var(--text-faint);
   }
+
+  @media (max-width: 560px) {
+    .row {
+      grid-template-columns: 1fr;
+      gap: 0.15rem;
+      padding: 0.6rem 0.2rem;
+    }
+    .categories {
+      grid-column: 1;
+    }
+  }
 </style>

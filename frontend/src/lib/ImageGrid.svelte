@@ -39,6 +39,23 @@
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 1rem;
   }
+
+  @media (max-width: 560px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.6rem;
+    }
+    .body {
+      padding: 0.5rem;
+    }
+    .title {
+      font-size: 0.9rem;
+    }
+    .venue,
+    .date {
+      font-size: 0.7rem;
+    }
+  }
   .card {
     display: flex;
     flex-direction: column;

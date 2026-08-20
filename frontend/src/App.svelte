@@ -5,6 +5,7 @@
   import DateRangeChips from "./lib/DateRangeChips.svelte";
   import DepartureBoard from "./lib/DepartureBoard.svelte";
   import { dateRangeFor, filters } from "./lib/filters.svelte.js";
+  import FiltersToggle from "./lib/FiltersToggle.svelte";
   import GroupToggle from "./lib/GroupToggle.svelte";
   import ImageGrid from "./lib/ImageGrid.svelte";
   import LanguageToggle from "./lib/LanguageToggle.svelte";
@@ -51,31 +52,39 @@
 </script>
 
 <main>
-  <header>
-    <div class="header-row">
-      <h1>Zürich Events</h1>
-      <div class="header-actions">
-        <LanguageToggle />
-        <ThemeToggle />
+  <div class="sticky-bar">
+    <header>
+      <div class="header-row">
+        <h1>Zürich Events</h1>
+        <div class="header-actions">
+          <LanguageToggle />
+          <ThemeToggle />
+        </div>
       </div>
-    </div>
-    {#if meta}
-      <div class="meta">
-        {meta.activeEventCount} events tracked · last refreshed
-        {meta.lastPollFinishedAt ? new Date(meta.lastPollFinishedAt).toLocaleString() : "never"}
-      </div>
-    {/if}
-  </header>
+      {#if meta}
+        <div class="meta">
+          {meta.activeEventCount} events tracked · last refreshed
+          {meta.lastPollFinishedAt ? new Date(meta.lastPollFinishedAt).toLocaleString() : "never"}
+        </div>
+      {/if}
+    </header>
 
-  <div class="controls">
-    <SearchBar />
-    <DateRangeChips />
-    <CategoryChips {categories} />
+    <div class="toolbar">
+      <div class="search-wrap"><SearchBar /></div>
+      <FiltersToggle />
+    </div>
     <div class="view-row">
       <ViewToggle />
       <GroupToggle />
     </div>
   </div>
+
+  {#if filters.filtersOpen}
+    <div class="filters-panel">
+      <DateRangeChips />
+      <CategoryChips {categories} />
+    </div>
+  {/if}
 
   <div class="status">
     {#if loading}Loading…{:else}{total} events{/if}
@@ -93,10 +102,20 @@
   main {
     max-width: 1100px;
     margin: 0 auto;
-    padding: 1.5rem 1rem 4rem;
+    padding: 0 1rem 4rem;
+  }
+  .sticky-bar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--bg);
+    padding-top: 1.5rem;
+    padding-bottom: 0.7rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0.8rem;
   }
   header {
-    margin-bottom: 1.2rem;
+    margin-bottom: 0.8rem;
   }
   .header-row {
     display: flex;
@@ -107,6 +126,7 @@
   .header-actions {
     display: flex;
     gap: 0.5rem;
+    flex-shrink: 0;
   }
   h1 {
     margin: 0 0 0.2rem;
@@ -116,16 +136,25 @@
     color: var(--text-muted);
     font-size: 0.8rem;
   }
-  .controls {
+  .toolbar {
     display: flex;
-    flex-direction: column;
-    gap: 0.7rem;
-    margin-bottom: 1.2rem;
+    gap: 0.5rem;
+    margin-bottom: 0.6rem;
+  }
+  .search-wrap {
+    flex: 1;
+    min-width: 0;
   }
   .view-row {
     display: flex;
     align-items: center;
     gap: 0.6rem;
+  }
+  .filters-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-bottom: 1.2rem;
   }
   .status {
     color: var(--text-muted);
@@ -135,5 +164,20 @@
   .error {
     color: var(--error);
     margin-left: 0.6rem;
+  }
+
+  @media (max-width: 640px) {
+    main {
+      padding: 0 0.75rem 3rem;
+    }
+    .sticky-bar {
+      padding-top: 1rem;
+    }
+    h1 {
+      font-size: 1.25rem;
+    }
+    .meta {
+      display: none;
+    }
   }
 </style>

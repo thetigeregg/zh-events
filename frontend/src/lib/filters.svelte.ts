@@ -1,5 +1,11 @@
 import type { DateRangePreset, ViewMode } from "../types.js";
 
+// Filter chips (date range + category) default open on a wide viewport where
+// they don't cost much vertical space, and default collapsed behind a
+// "Filters" toggle on a narrow one, where a dozen-plus category chips would
+// push every event below the fold before the user sees anything.
+const MOBILE_BREAKPOINT_QUERY = "(max-width: 640px)";
+
 export const filters = $state({
   search: "",
   dateRange: "next7" as DateRangePreset,
@@ -9,7 +15,18 @@ export const filters = $state({
   // inherently a day-by-day listing, where grouping a recurring event across
   // its many days would fight the view's own purpose.
   groupRecurring: true,
+  filtersOpen: !window.matchMedia(MOBILE_BREAKPOINT_QUERY).matches,
 });
+
+export function toggleFilters() {
+  filters.filtersOpen = !filters.filtersOpen;
+}
+
+export function activeFilterCount(): number {
+  let count = filters.categories.size;
+  if (filters.dateRange !== "next7") count++;
+  return count;
+}
 
 function toDateString(d: Date): string {
   // Use local date components, not toISOString() — that converts to UTC,
