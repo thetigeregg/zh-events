@@ -1,6 +1,9 @@
 FROM node:22-alpine AS build
 WORKDIR /app
-RUN apk add --no-cache python3 make g++
+# Retry past transient DNS/network blips reaching Alpine's package CDN —
+# cheap insurance against flaky build-host networking (e.g. a local DNS
+# resolver that's briefly unreachable from the build container).
+RUN for i in 1 2 3 4 5; do apk add --no-cache python3 make g++ && break || sleep 5; done
 COPY package*.json ./
 RUN npm ci
 COPY tsconfig.json ./
@@ -9,7 +12,7 @@ RUN npm run build
 RUN npm prune --omit=dev
 
 FROM node:22-alpine
-RUN apk add --no-cache gosu tzdata
+RUN for i in 1 2 3 4 5; do apk add --no-cache gosu tzdata && break || sleep 5; done
 WORKDIR /app
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
