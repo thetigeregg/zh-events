@@ -10,7 +10,7 @@ export const filters = $state({
   search: "",
   dateRange: "next7" as DateRangePreset,
   categories: new Set<string>(),
-  view: "board" as ViewMode,
+  view: "grid" as ViewMode,
   // Only meaningful (and only shown) in grid view — the departure board is
   // inherently a day-by-day listing, where grouping a recurring event across
   // its many days would fight the view's own purpose.
