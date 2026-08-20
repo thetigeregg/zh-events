@@ -15,13 +15,15 @@ export async function translateBatch(texts: string[]): Promise<Map<string, strin
   }
 
   const body = new URLSearchParams();
-  body.set("auth_key", config.deeplApiKey!);
   body.set("target_lang", "EN");
   for (const text of texts) body.append("text", text);
 
   const res = await fetch(DEEPL_API_URL, {
     method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `DeepL-Auth-Key ${config.deeplApiKey}`,
+    },
     body,
   });
 
