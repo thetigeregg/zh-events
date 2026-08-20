@@ -14,19 +14,19 @@
 <style>
   .toggle {
     display: flex;
-    border: 1px solid #333;
+    border: 1px solid var(--border);
     border-radius: 4px;
     overflow: hidden;
   }
   .toggle button {
     padding: 0.5rem 1rem;
-    background: #111;
-    color: #ccc;
+    background: var(--bg-elevated);
+    color: var(--text-muted);
     border: none;
     cursor: pointer;
   }
   .toggle button.active {
-    background: #2563eb;
+    background: var(--accent);
     color: #fff;
   }
 </style>

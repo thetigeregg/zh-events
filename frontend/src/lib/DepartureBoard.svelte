@@ -47,8 +47,8 @@
     font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: #f59e0b;
-    border-bottom: 1px solid #333;
+    color: var(--time-color);
+    border-bottom: 1px solid var(--border);
     padding-bottom: 0.3rem;
     margin-bottom: 0.4rem;
   }
@@ -57,26 +57,26 @@
     grid-template-columns: 5.5rem 1fr 1fr;
     gap: 0.75rem;
     padding: 0.45rem 0.2rem;
-    border-bottom: 1px solid #1f1f1f;
-    color: #eee;
+    border-bottom: 1px solid var(--border-subtle);
+    color: var(--text);
     text-decoration: none;
   }
   .row:hover {
-    background: #161616;
+    background: var(--hover-bg);
   }
   .time {
     font-family: monospace;
-    color: #f59e0b;
+    color: var(--time-color);
   }
   .title {
     font-weight: 600;
   }
   .venue {
-    color: #999;
+    color: var(--text-muted);
   }
   .categories {
     grid-column: 2 / span 2;
     font-size: 0.75rem;
-    color: #666;
+    color: var(--text-faint);
   }
 </style>

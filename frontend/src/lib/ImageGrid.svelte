@@ -28,27 +28,27 @@
   .card {
     display: flex;
     flex-direction: column;
-    border: 1px solid #222;
+    border: 1px solid var(--border);
     border-radius: 6px;
     overflow: hidden;
-    color: #eee;
+    color: var(--text);
     text-decoration: none;
-    background: #111;
+    background: var(--bg-elevated);
   }
   .card:hover {
-    border-color: #444;
+    border-color: var(--accent);
   }
   .image {
     aspect-ratio: 4 / 3;
     background-size: cover;
     background-position: center;
-    background-color: #1a1a1a;
+    background-color: var(--hover-bg);
     display: flex;
     align-items: center;
     justify-content: center;
   }
   .no-image {
-    color: #555;
+    color: var(--text-faint);
     font-size: 0.8rem;
   }
   .body {
@@ -57,7 +57,7 @@
   .date {
     font-family: monospace;
     font-size: 0.75rem;
-    color: #f59e0b;
+    color: var(--time-color);
   }
   .title {
     font-weight: 600;
@@ -65,6 +65,6 @@
   }
   .venue {
     font-size: 0.8rem;
-    color: #999;
+    color: var(--text-muted);
   }
 </style>

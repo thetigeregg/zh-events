@@ -7,6 +7,7 @@
   import { dateRangeFor, filters } from "./lib/filters.svelte.js";
   import ImageGrid from "./lib/ImageGrid.svelte";
   import SearchBar from "./lib/SearchBar.svelte";
+  import ThemeToggle from "./lib/ThemeToggle.svelte";
   import ViewToggle from "./lib/ViewToggle.svelte";
   import type { CategoryFacet, EventItem, MetaResponse } from "./types.js";
 
@@ -48,7 +49,10 @@
 
 <main>
   <header>
-    <h1>Zürich Events</h1>
+    <div class="header-row">
+      <h1>Zürich Events</h1>
+      <ThemeToggle />
+    </div>
     {#if meta}
       <div class="meta">
         {meta.activeEventCount} events tracked · last refreshed
@@ -85,12 +89,18 @@
   header {
     margin-bottom: 1.2rem;
   }
+  .header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
   h1 {
     margin: 0 0 0.2rem;
     font-size: 1.6rem;
   }
   .meta {
-    color: #777;
+    color: var(--text-muted);
     font-size: 0.8rem;
   }
   .controls {
@@ -100,12 +110,12 @@
     margin-bottom: 1.2rem;
   }
   .status {
-    color: #777;
+    color: var(--text-muted);
     font-size: 0.85rem;
     margin-bottom: 1rem;
   }
   .error {
-    color: #f87171;
+    color: var(--error);
     margin-left: 0.6rem;
   }
 </style>

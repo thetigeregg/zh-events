@@ -26,15 +26,15 @@
   .chip {
     padding: 0.35rem 0.8rem;
     border-radius: 999px;
-    border: 1px solid #333;
-    background: #111;
-    color: #ccc;
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    color: var(--text-muted);
     cursor: pointer;
     font-size: 0.85rem;
   }
   .chip.active {
-    background: #16a34a;
-    border-color: #16a34a;
+    background: var(--accent-green);
+    border-color: var(--accent-green);
     color: #fff;
   }
   .count {

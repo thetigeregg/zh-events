@@ -4,6 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Zürich Events</title>
+    <script>
+      // Blocking, pre-paint: apply a stored explicit theme choice before any
+      // CSS renders, so there's no flash of the wrong theme. "auto" needs no
+      // JS — the CSS media query handles it — so this only sets an attribute
+      // when the user has explicitly picked light or dark.
+      (function () {
+        try {
+          var stored = localStorage.getItem("theme");
+          if (stored === "light" || stored === "dark") {
+            document.documentElement.setAttribute("data-theme", stored);
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <div id="app"></div>

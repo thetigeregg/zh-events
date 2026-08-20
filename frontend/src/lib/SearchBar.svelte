@@ -15,9 +15,9 @@
     box-sizing: border-box;
     padding: 0.6rem 0.9rem;
     font-size: 1rem;
-    border: 1px solid #333;
-    background: #111;
-    color: #eee;
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    color: var(--text);
     border-radius: 4px;
   }
 </style>
