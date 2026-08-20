@@ -1,3 +1,4 @@
+import { SvelteSet } from "svelte/reactivity";
 import type { DateRangePreset, ViewMode } from "../types.js";
 
 // Filter chips (date range + category) default open on a wide viewport where
@@ -9,7 +10,7 @@ const MOBILE_BREAKPOINT_QUERY = "(max-width: 640px)";
 export const filters = $state({
   search: "",
   dateRange: "next7" as DateRangePreset,
-  categories: new Set<string>(),
+  categories: new SvelteSet<string>(),
   view: "grid" as ViewMode,
   // Only meaningful (and only shown) in grid view — the departure board is
   // inherently a day-by-day listing, where grouping a recurring event across
