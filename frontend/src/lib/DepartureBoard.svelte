@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { displayTitle } from "./language.svelte.js";
   import type { EventItem } from "../types.js";
 
   let { events }: { events: EventItem[] } = $props();
@@ -27,7 +28,7 @@
       {#each dayEvents as event (event.id)}
         <a class="row" href={event.detailUrl} target="_blank" rel="noreferrer">
           <span class="time">{event.schedule ?? "—"}</span>
-          <span class="title">{event.title}</span>
+          <span class="title">{displayTitle(event)}</span>
           <span class="venue">{event.venue ?? ""}</span>
           <span class="categories">{event.categories.join(", ")}</span>
         </a>

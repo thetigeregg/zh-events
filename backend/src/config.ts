@@ -21,4 +21,6 @@ export const config = {
   refreshIntervalDays: intFromEnv("REFRESH_INTERVAL_DAYS", 1),
   guidlePageDelayMs: intFromEnv("GUIDLE_PAGE_DELAY_MS", 300),
   language: process.env.LANGUAGE ?? "en",
+  deeplApiKey: process.env.DEEPL_API_KEY || null,
+  deeplBatchDelayMs: intFromEnv("DEEPL_BATCH_DELAY_MS", 300),
 };

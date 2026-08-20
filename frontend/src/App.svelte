@@ -6,6 +6,7 @@
   import DepartureBoard from "./lib/DepartureBoard.svelte";
   import { dateRangeFor, filters } from "./lib/filters.svelte.js";
   import ImageGrid from "./lib/ImageGrid.svelte";
+  import LanguageToggle from "./lib/LanguageToggle.svelte";
   import SearchBar from "./lib/SearchBar.svelte";
   import ThemeToggle from "./lib/ThemeToggle.svelte";
   import ViewToggle from "./lib/ViewToggle.svelte";
@@ -51,7 +52,10 @@
   <header>
     <div class="header-row">
       <h1>Zürich Events</h1>
-      <ThemeToggle />
+      <div class="header-actions">
+        <LanguageToggle />
+        <ThemeToggle />
+      </div>
     </div>
     {#if meta}
       <div class="meta">
@@ -94,6 +98,10 @@
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
+  }
+  .header-actions {
+    display: flex;
+    gap: 0.5rem;
   }
   h1 {
     margin: 0 0 0.2rem;

@@ -5,6 +5,7 @@ import { fetchOffersCount, fetchSearchOffersPage } from "../guidle/client.js";
 import { MAX_PAGES, OFFERS_PER_PAGE } from "../guidle/constants.js";
 import type { GuidleOffer } from "../guidle/types.js";
 import { logger } from "../logger.js";
+import { syncTranslations } from "../translate/sync.js";
 
 function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -67,6 +68,12 @@ export async function runPollCycle(db: Database.Database): Promise<{ success: bo
       `UPDATE poll_runs SET finished_at = ?, status = 'error', error_message = ? WHERE id = ?`,
     ).run(new Date().toISOString(), message, runId);
     return { success: false };
+  }
+
+  try {
+    await syncTranslations(db, fetched.offers);
+  } catch (err) {
+    logger.warn({ err }, "translation sync failed, continuing poll cycle without new translations");
   }
 
   const { offers, pagesFetched } = fetched;

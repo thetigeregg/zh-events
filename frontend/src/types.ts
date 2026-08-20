@@ -1,6 +1,7 @@
 export interface EventItem {
   id: string;
   title: string;
+  translatedTitle: string | null;
   categories: string[];
   imageUrl: string | null;
   detailUrl: string;

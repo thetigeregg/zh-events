@@ -9,6 +9,7 @@ services:
       PUID: ${PUID:-1000}
       PGID: ${PGID:-1000}
       REFRESH_INTERVAL_DAYS: ${REFRESH_INTERVAL_DAYS:-1}
+      DEEPL_API_KEY: ${DEEPL_API_KEY:-}
     volumes:
       - ${DATA_PATH:-./data}:/data
     networks:

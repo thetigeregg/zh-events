@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { displayTitle } from "./language.svelte.js";
   import type { EventItem } from "../types.js";
 
   let { events }: { events: EventItem[] } = $props();
@@ -12,7 +13,7 @@
       </div>
       <div class="body">
         <div class="date">{event.firstShow} · {event.schedule ?? "—"}</div>
-        <div class="title">{event.title}</div>
+        <div class="title">{displayTitle(event)}</div>
         <div class="venue">{event.venue ?? ""}</div>
       </div>
     </a>

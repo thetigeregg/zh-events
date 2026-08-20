@@ -31,6 +31,7 @@ interface EventRow {
   lat: number | null;
   lng: number | null;
   advertisement: number;
+  translated_title: string | null;
 }
 
 export function registerEventsRoute(app: FastifyInstance) {
@@ -80,8 +81,12 @@ export function registerEventsRoute(app: FastifyInstance) {
 
     const rows = app.db
       .prepare(
-        `SELECT id, title, category_raw, image_hash, detail_url, first_show, schedule, venue, lat, lng, advertisement
-         FROM events WHERE ${whereClause}
+        `SELECT events.id, events.title, events.category_raw, events.image_hash, events.detail_url,
+                events.first_show, events.schedule, events.venue, events.lat, events.lng, events.advertisement,
+                translations.translated_text AS translated_title
+         FROM events
+         LEFT JOIN translations ON translations.source_text = events.title
+         WHERE ${whereClause}
          ORDER BY first_show ASC, schedule ASC
          LIMIT @limit OFFSET @offset`,
       )
@@ -91,6 +96,7 @@ export function registerEventsRoute(app: FastifyInstance) {
       events: rows.map((row) => ({
         id: row.id,
         title: row.title,
+        translatedTitle: row.translated_title,
         categories: row.category_raw.split(",").map((c) => c.trim()).filter(Boolean),
         imageUrl: row.image_hash ? `/api/images/${row.image_hash}` : null,
         detailUrl: row.detail_url,
