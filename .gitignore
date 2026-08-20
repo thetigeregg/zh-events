@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.env
+local-data/
+*.log
+.DS_Store
+
+# Research artifacts from initial project scoping, not part of the app itself.
+zuri.har
+docker_compose_example.yaml

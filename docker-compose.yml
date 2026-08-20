@@ -1,0 +1,33 @@
+services:
+  zh-events-backend:
+    build:
+      context: ./backend
+    container_name: zh-events-backend
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ:-Europe/Zurich}
+      PUID: ${PUID:-1000}
+      PGID: ${PGID:-1000}
+      REFRESH_INTERVAL_DAYS: ${REFRESH_INTERVAL_DAYS:-1}
+    volumes:
+      - ${DATA_PATH:-./data}:/data
+    networks:
+      - zh-events-internal
+
+  zh-events-frontend:
+    build:
+      context: ./frontend
+    container_name: zh-events-frontend
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ:-Europe/Zurich}
+    depends_on:
+      - zh-events-backend
+    networks:
+      - zh-events-internal
+    ports:
+      - "${FRONTEND_PORT:-8420}:80"
+
+networks:
+  zh-events-internal:
+    driver: bridge
