@@ -8,7 +8,13 @@ export const filters = $state({
 });
 
 function toDateString(d: Date): string {
-  return d.toISOString().slice(0, 10);
+  // Use local date components, not toISOString() — that converts to UTC,
+  // which is off by a day for any timezone ahead of UTC (e.g. Europe/Zurich)
+  // once local midnight has already passed UTC midnight.
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 }
 
 function addDays(d: Date, days: number): Date {
