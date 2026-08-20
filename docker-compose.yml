@@ -2,6 +2,12 @@ services:
   zh-events-backend:
     build:
       context: ./backend
+      # Some hosts' default Docker bridge network has broken/stale NAT rules
+      # (seen on the deploy NAS — apk/npm couldn't resolve DNS at all during
+      # build, even to a hardcoded public resolver, while every named network
+      # worked fine). host networking for the build phase sidesteps that
+      # entirely rather than depending on the bridge working.
+      network: host
     container_name: zh-events-backend
     restart: unless-stopped
     environment:
@@ -18,6 +24,7 @@ services:
   zh-events-frontend:
     build:
       context: ./frontend
+      network: host
     container_name: zh-events-frontend
     restart: unless-stopped
     environment:
