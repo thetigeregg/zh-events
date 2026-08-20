@@ -24,9 +24,10 @@ export function toggleFilters() {
 }
 
 export function activeFilterCount(): number {
-  let count = filters.categories.size;
-  if (filters.dateRange !== "next7") count++;
-  return count;
+  // Date range is a persistent single-choice control (always some preset is
+  // selected), not an optional filter layered on top — only category
+  // selections count toward the badge.
+  return filters.categories.size;
 }
 
 function toDateString(d: Date): string {
@@ -77,5 +78,14 @@ export function toggleCategory(category: string) {
     filters.categories.delete(category);
   } else {
     filters.categories.add(category);
+  }
+}
+
+export function toggleAllCategories(names: string[]) {
+  const allSelected = names.length > 0 && names.every((name) => filters.categories.has(name));
+  if (allSelected) {
+    filters.categories.clear();
+  } else {
+    for (const name of names) filters.categories.add(name);
   }
 }

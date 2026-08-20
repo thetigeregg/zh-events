@@ -1,11 +1,22 @@
 <script lang="ts">
-  import { filters, toggleCategory } from "./filters.svelte.js";
+  import { filters, toggleAllCategories, toggleCategory } from "./filters.svelte.js";
   import type { CategoryFacet } from "../types.js";
 
   let { categories }: { categories: CategoryFacet[] } = $props();
+
+  let allSelected = $derived(
+    categories.length > 0 && categories.every((cat) => filters.categories.has(cat.name)),
+  );
 </script>
 
 <div class="chips">
+  <button
+    class="chip all-chip"
+    class:active={allSelected}
+    onclick={() => toggleAllCategories(categories.map((c) => c.name))}
+  >
+    <span class="label">All</span>
+  </button>
   {#each categories as cat (cat.name)}
     <button
       class="chip"
@@ -39,6 +50,9 @@
     background: var(--accent-green);
     border-color: var(--accent-green);
     color: #fff;
+  }
+  .all-chip {
+    font-weight: 600;
   }
   .count {
     display: inline-flex;
