@@ -1,5 +1,6 @@
 <script lang="ts">
   import { displayTitle } from "./language.svelte.js";
+  import { hideEvent } from "./hidden.svelte.js";
   import type { EventItem } from "../types.js";
 
   let { events }: { events: EventItem[] } = $props();
@@ -20,16 +21,24 @@
 
 <div class="grid">
   {#each events as event (event.id)}
-    <a class="card" href={event.detailUrl} target="_blank" rel="noreferrer">
-      <div class="image" style:background-image={event.imageUrl ? `url(${event.imageUrl})` : undefined}>
-        {#if !event.imageUrl}<span class="no-image">No image</span>{/if}
-      </div>
-      <div class="body">
-        <div class="date">{dateLine(event)}</div>
-        <div class="title">{displayTitle(event)}</div>
-        <div class="venue">{event.venue ?? ""}</div>
-      </div>
-    </a>
+    <div class="card-wrap">
+      <a class="card" href={event.detailUrl} target="_blank" rel="noreferrer">
+        <div class="image" style:background-image={event.imageUrl ? `url(${event.imageUrl})` : undefined}>
+          {#if !event.imageUrl}<span class="no-image">No image</span>{/if}
+        </div>
+        <div class="body">
+          <div class="date">{dateLine(event)}</div>
+          <div class="title">{displayTitle(event)}</div>
+          <div class="venue">{event.venue ?? ""}</div>
+        </div>
+      </a>
+      <button class="hide-btn" onclick={() => hideEvent(event)} title="Hide this event" aria-label="Hide this event">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+          <circle cx="12" cy="12" r="3" />
+        </svg>
+      </button>
+    </div>
   {/each}
 </div>
 
@@ -56,6 +65,9 @@
       font-size: 0.7rem;
     }
   }
+  .card-wrap {
+    position: relative;
+  }
   .card {
     display: flex;
     flex-direction: column;
@@ -68,6 +80,29 @@
   }
   .card:hover {
     border-color: var(--accent);
+  }
+  .hide-btn {
+    position: absolute;
+    top: 0.4rem;
+    right: 0.4rem;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 999px;
+    border: none;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    cursor: pointer;
+  }
+  .hide-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+  .hide-btn svg {
+    width: 1rem;
+    height: 1rem;
   }
   .image {
     aspect-ratio: 4 / 3;

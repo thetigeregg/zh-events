@@ -7,6 +7,9 @@
   import { dateRangeFor, filters } from "./lib/filters.svelte.js";
   import FiltersToggle from "./lib/FiltersToggle.svelte";
   import GroupToggle from "./lib/GroupToggle.svelte";
+  import { isHidden } from "./lib/hidden.svelte.js";
+  import HiddenEventsPage from "./lib/HiddenEventsPage.svelte";
+  import HiddenEventsToggle from "./lib/HiddenEventsToggle.svelte";
   import ImageGrid from "./lib/ImageGrid.svelte";
   import LanguageToggle from "./lib/LanguageToggle.svelte";
   import SearchBar from "./lib/SearchBar.svelte";
@@ -20,6 +23,9 @@
   let meta = $state<MetaResponse | null>(null);
   let loading = $state(true);
   let error = $state<string | null>(null);
+  let page = $state<"events" | "hidden">("events");
+
+  let visibleEvents = $derived(events.filter((e) => !isHidden(e)));
 
   onMount(() => {
     fetchCategories().then((r) => (categories = r.categories));
@@ -57,6 +63,7 @@
       <div class="header-row">
         <h1>Zürich Events</h1>
         <div class="header-actions">
+          <HiddenEventsToggle {page} onToggle={() => (page = page === "hidden" ? "events" : "hidden")} />
           <LanguageToggle />
           <ThemeToggle />
         </div>
@@ -69,38 +76,44 @@
       {/if}
     </header>
 
-    <div class="toolbar">
-      <div class="search-wrap"><SearchBar /></div>
-      <FiltersToggle />
-    </div>
-    <div class="view-row">
-      <ViewToggle />
-      <GroupToggle />
-    </div>
+    {#if page === "events"}
+      <div class="toolbar">
+        <div class="search-wrap"><SearchBar /></div>
+        <FiltersToggle />
+      </div>
+      <div class="view-row">
+        <ViewToggle />
+        <GroupToggle />
+      </div>
+    {/if}
   </div>
 
-  {#if filters.filtersOpen}
-    <div class="filters-panel">
-      <div class="filter-section">
-        <span class="filter-label">When</span>
-        <DateRangeChips />
-      </div>
-      <div class="filter-section category-section">
-        <span class="filter-label">Category</span>
-        <CategoryChips {categories} />
-      </div>
-    </div>
-  {/if}
-
-  <div class="status">
-    {#if loading}Loading…{:else}{total} events{/if}
-    {#if error}<span class="error">{error}</span>{/if}
-  </div>
-
-  {#if filters.view === "board"}
-    <DepartureBoard {events} />
+  {#if page === "hidden"}
+    <HiddenEventsPage />
   {:else}
-    <ImageGrid {events} />
+    {#if filters.filtersOpen}
+      <div class="filters-panel">
+        <div class="filter-section">
+          <span class="filter-label">When</span>
+          <DateRangeChips />
+        </div>
+        <div class="filter-section category-section">
+          <span class="filter-label">Category</span>
+          <CategoryChips {categories} />
+        </div>
+      </div>
+    {/if}
+
+    <div class="status">
+      {#if loading}Loading…{:else}{visibleEvents.length} events{/if}
+      {#if error}<span class="error">{error}</span>{/if}
+    </div>
+
+    {#if filters.view === "board"}
+      <DepartureBoard events={visibleEvents} />
+    {:else}
+      <ImageGrid events={visibleEvents} />
+    {/if}
   {/if}
 </main>
 
