@@ -28,8 +28,8 @@
         </div>
         <div class="body">
           <div class="date">{dateLine(event)}</div>
-          <div class="title">{displayTitle(event)}</div>
-          <div class="venue">{event.venue ?? ""}</div>
+          <div class="title" title={displayTitle(event)}>{displayTitle(event)}</div>
+          <div class="venue" title={event.venue ?? ""}>{event.venue ?? ""}</div>
         </div>
       </a>
       <button class="hide-btn" onclick={() => hideEvent(event)} title="Hide this event" aria-label="Hide this event">
@@ -133,9 +133,19 @@
   .title {
     font-weight: 600;
     margin: 0.2rem 0;
+    /* Clamp to a fixed line count so a long title doesn't grow this card's
+       body far past its neighbors' — CSS Grid auto-sizes each row to its
+       tallest item, so one long title otherwise inflates the whole row. */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
   .venue {
     font-size: 0.8rem;
     color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 </style>
